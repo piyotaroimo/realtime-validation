@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <title>realtime-validation</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles/style.css">
+  </head>
+  <body>
+    <div class="container">
+      <div class="page-header">
+        <h1>オブジェクト指向</h1>
+      </div>
+      <form data-rv-form="validateTest" class="js-form" method="post" action="">
+          <div class="row">
+            <div class="col">
+              <label for="">必須項目</label>
+            </div>
+            <div class="col">
+              <input type="text" class="js-validate js-validate-required">
+              <p class="err"></p>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col">
+              <label for="">4文字以上8文字以下</label>
+            </div>
+            <div class="col">
+              <input
+                type="text"
+                class="js-validate js-validate-maxlength js-validate-minlength"
+                placeholder="4文字以上8文字以内で入力してください"
+                data-rv-validate="maxmin"
+                data-rv-minlength="5"
+                data-rv-maxlength="10"
+                data-tetetetete="www"
+              >
+              <p class="err"></p>
+              <p class="" data-rv-error="maxmin.minlength">みん</p>
+              <p class="" data-rv-error="maxmin.maxlength">まっくす</p>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col">
+              <label for="">数字のみ</label>
+            </div>
+            <div class="col">
+              <input type="text" class="js-validate js-validate-number" placeholder="数字のみ">
+              <p class="err"></p>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col">
+              <label for="">url</label>
+            </div>
+            <div class="col">
+              <input type="text" class="js-validate js-validate-url" placeholder="url入力">
+              <p class="err"></p>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col">
+              <label for="">メールアドレス</label>
+            </div>
+            <div class="col">
+              <input
+                type="text"
+                class="js-validate js-validate-mail"
+                placeholder="メールアドレス入力"
+                data-rv-validate
+                data-rv-mail
+              >
+              <p class="err"></p>
+            </div>
+          </div>
+
+          <div class="row">
+              <button type="button" class="js-submit btn btn-default">送信</button>
+          </div>
+      </form>
+      <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+      <script src="scripts/common.js"></script>
+    </div>
+  </body>
+</html>
