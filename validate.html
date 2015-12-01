@@ -36,9 +36,8 @@
                 data-rv-maxlength="10"
                 data-tetetetete="www"
               >
-              <p class="err"></p>
-              <p class="" data-rv-error="maxmin.minlength">みん</p>
-              <p class="" data-rv-error="maxmin.maxlength">まっくす</p>
+              <p class="err" data-rv-error="validateTest.maxmin.minlength">みん</p>
+              <p class="err" data-rv-error="validateTest.maxmin.maxlength">まっくす</p>
             </div>
           </div>
 
@@ -71,10 +70,10 @@
                 type="text"
                 class="js-validate js-validate-mail"
                 placeholder="メールアドレス入力"
-                data-rv-validate
+                data-rv-validate="ckmail"
                 data-rv-mail
               >
-              <p class="err"></p>
+              <p class="err" data-rv-error="ckmail.mail">めーるあどえす</p>
             </div>
           </div>
 
@@ -83,7 +82,20 @@
           </div>
       </form>
       <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
-      <script src="scripts/common.js"></script>
+      <script src="scripts/RtValidateModel.js"></script>
+      <script src="scripts/RtValidateView.js"></script>
+      <script>
+        ;(function() {
+            var validationPrefix = 'rv';
+            $('[data-' + validationPrefix + '-validate]')
+            .each(function() {
+                var validation = new RtValidateView(this, validationPrefix);
+                validation.setInvalid = function() {
+                  this.$el.addClass('error');
+                }
+            });
+        })();
+      </script>
     </div>
   </body>
 </html>
