@@ -11,9 +11,22 @@ function RtValidateView (el, prefix) {
     this.initialize(el);
     // イベント
     this.handleEvents();
+    // エラー
 }
 
 RtValidateView.prototype.initialize = function(el) {
+    this.$form = null;
+    var parent = el;
+    for(var i = 0; parent; i++) {
+        if (parent.nodeName === 'FORM') {this.$form = parent; break;}
+        parent = parent.parentNode;
+    }
+    this.$formKey = this.$form.dataset[this.prefix + 'Form'];
+    this.$validationKey = el.dataset[this.prefix + 'Validate'];
+    this.$submit = document.dataset;
+console.log(this.$submit);
+
+
     this.$el = $(el);
     this.$form = this.$el.parents('form');
     this.formKey = this.$form.data(this.prefix + '-form');
@@ -86,12 +99,14 @@ RtValidateView.prototype.onClick = function() {
 RtValidateView.prototype.onValid = function() {
     var $targetForm = this.$form;
 
-    // エラーメッセージを非表示にする
+    // hide error message
     $('[data-' + this.prefix +
                  '-error^="' +
                  this.formKey + '.' +
                  this.validationKey + '."]'
     ).hide();
+
+    this.setValid();
 
     this.$submit.click(function(){
         $targetForm.submit();
@@ -108,6 +123,10 @@ RtValidateView.prototype.onInvalid = function() {
     ).show();
 
     this.setInvalid();
+};
+
+RtValidateView.prototype.setValid = function() {
+    //this.$el.removeClass('error');
 };
 
 RtValidateView.prototype.setInvalid = function() {

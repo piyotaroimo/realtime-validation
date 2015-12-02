@@ -11,7 +11,7 @@
       <div class="page-header">
         <h1>オブジェクト指向</h1>
       </div>
-      <form data-rv-form="validateTest" class="js-form" method="post" action="">
+      <form data-rv-form="formName" class="js-form" method="post" action="">
           <div class="row">
             <div class="col">
               <label for="">必須項目</label>
@@ -36,8 +36,8 @@
                 data-rv-maxlength="10"
                 data-tetetetete="www"
               >
-              <p class="err" data-rv-error="validateTest.maxmin.minlength">みん</p>
-              <p class="err" data-rv-error="validateTest.maxmin.maxlength">まっくす</p>
+              <p class="err" data-rv-error="formName.maxmin.minlength">みん</p>
+              <p class="err" data-rv-error="formName.maxmin.maxlength">まっくす</p>
             </div>
           </div>
 
@@ -73,12 +73,12 @@
                 data-rv-validate="ckmail"
                 data-rv-mail
               >
-              <p class="err" data-rv-error="ckmail.mail">めーるあどえす</p>
+              <p class="err" data-rv-error="formName.ckmail.mail">めーるあどえす</p>
             </div>
           </div>
 
           <div class="row">
-              <button type="button" class="js-submit btn btn-default">送信</button>
+              <button type="button" data-rv-submit="formName" class="js-submit btn btn-default">送信</button>
           </div>
       </form>
       <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
@@ -92,6 +92,9 @@
                 var validation = new RtValidateView(this, validationPrefix);
                 validation.setInvalid = function() {
                   this.$el.addClass('error');
+                }
+                validation.setValid = function() {
+                  this.$el.removeClass('error');
                 }
             });
         })();
