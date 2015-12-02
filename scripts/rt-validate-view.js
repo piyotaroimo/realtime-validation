@@ -106,7 +106,7 @@ RtValidateView.prototype.onValid = function() {
                  this.validationKey + '."]'
     ).hide();
 
-    this.setValid();
+    this.orgOnValid();
 
     this.$submit.click(function(){
         $targetForm.submit();
@@ -122,13 +122,13 @@ RtValidateView.prototype.onInvalid = function() {
                  this.model.errors[0] + '"]'
     ).show();
 
-    this.setInvalid();
+    this.orgOnInvalid();
 };
 
-RtValidateView.prototype.setValid = function() {
+RtValidateView.prototype.orgOnValid = function() {
     //this.$el.removeClass('error');
 };
 
-RtValidateView.prototype.setInvalid = function() {
+RtValidateView.prototype.orgOnInvalid = function() {
     //this.$el.addClass('error');
 };

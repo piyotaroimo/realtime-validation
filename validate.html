@@ -90,10 +90,10 @@
             $('[data-' + validationPrefix + '-validate]')
             .each(function() {
                 var validation = new RtValidateView(this, validationPrefix);
-                validation.setInvalid = function() {
+                validation.orgOnInvalid = function() {
                   this.$el.addClass('error');
                 }
-                validation.setValid = function() {
+                validation.orgOnValid = function() {
                   this.$el.removeClass('error');
                 }
             });
