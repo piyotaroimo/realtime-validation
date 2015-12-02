@@ -23,15 +23,15 @@ RtValidateView.prototype.initialize = function(el) {
     var self = this;
 
     // エラーメッセージ非表示
-    $('[data-' + self.prefix
-               + '-error^="'
-               + self.formKey + '.'
-               + self.validationKey + '."]'
+    $('[data-' + self.prefix +
+                 '-error^="' +
+                 self.formKey + '.' +
+                 self.validationKey + '."]'
     ).hide();
 
     // HTML5のrequiredがあれば必須項目を設定する
     if(this.$el.prop('required')) {
-        self.attrs["required"] = "";
+        self.attrs.required = "";
     }
 
     // prefixから対象の属性のみ取得し、prefixを削除する
@@ -87,10 +87,10 @@ RtValidateView.prototype.onValid = function() {
     var $targetForm = this.$form;
 
     // エラーメッセージを非表示にする
-    $('[data-' + this.prefix
-               + '-error^="'
-               + this.formKey + '.'
-               + this.validationKey + '."]'
+    $('[data-' + this.prefix +
+                 '-error^="' +
+                 this.formKey + '.' +
+                 this.validationKey + '."]'
     ).hide();
 
     this.$submit.click(function(){
@@ -100,11 +100,11 @@ RtValidateView.prototype.onValid = function() {
 
 RtValidateView.prototype.onInvalid = function() {
     // show error message
-    $('[data-' + this.prefix
-               + '-error="'
-               + this.formKey + '.'
-               + this.validationKey + '.'
-               + this.model.errors[0] + '"]'
+    $('[data-' + this.prefix +
+                 '-error="' +
+                 this.formKey + '.' +
+                 this.validationKey + '.' +
+                 this.model.errors[0] + '"]'
     ).show();
 
     this.setInvalid();

@@ -20,12 +20,12 @@ function RtValidateModel(attrs) {
         mail: /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
     };
 
-    if (attrs.required !== undefined) this.attrs['required'] = attrs.required;
-    if (attrs.minlength !== undefined) this.attrs['minlength'] = attrs.minlength;
-    if (attrs.maxlength !== undefined) this.attrs['maxlength'] = attrs.maxlength;
-    if (attrs.number !== undefined) this.attrs['number'] = this.terms.number;
-    if (attrs.url !== undefined) this.attrs['url'] = this.terms.url;
-    if (attrs.mail !== undefined) this.attrs['mail'] = this.terms.mail;
+    if (attrs.required !== undefined) this.attrs.required = attrs.required;
+    if (attrs.minlength !== undefined) this.attrs.minlength = attrs.minlength;
+    if (attrs.maxlength !== undefined) this.attrs.maxlength = attrs.maxlength;
+    if (attrs.number !== undefined) this.attrs.number = this.terms.number;
+    if (attrs.url !== undefined) this.attrs.url = this.terms.url;
+    if (attrs.mail !== undefined) this.attrs.mail = this.terms.mail;
 }
 
 RtValidateModel.prototype.set = function(val) {
