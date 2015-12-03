@@ -15,35 +15,26 @@ function RtValidateView (el, prefix) {
 }
 
 RtValidateView.prototype.initialize = function(el) {
-    this.$form = null;
+    this.form = null;
     var parent = el;
-    for(var i = 0; parent; i++) {
-        if (parent.nodeName === 'FORM') {this.$form = parent; break;}
+    for (var i = 0; parent; i++) {
+        if (parent.nodeName === 'FORM') {this.form = parent; break;}
         parent = parent.parentNode;
     }
-    this.$formKey = this.$form.dataset[this.prefix + 'Form'];
-    this.$validationKey = el.dataset[this.prefix + 'Validate'];
-    this.$submit = document.dataset;
-console.log(this.$submit);
-
-
-    this.$el = $(el);
-    this.$form = this.$el.parents('form');
-    this.formKey = this.$form.data(this.prefix + '-form');
-    this.validationKey = this.$el.data(this.prefix + '-validate');
-    this.$submit = $('.js-submit');
+    this.formKey = this.form.dataset[this.prefix + 'Form'];
+    this.validationKey = el.dataset[this.prefix + 'Validate'];
+    this.submit = document.querySelector(
+        '[data-' + this.prefix + '-submit="' + this.formKey + '"]'
+    );
     this.attrs = {};
+    this.$el = $(el);
     var self = this;
 
     // エラーメッセージ非表示
-    $('[data-' + self.prefix +
-                 '-error^="' +
-                 self.formKey + '.' +
-                 self.validationKey + '."]'
-    ).hide();
+    this.hideErrorMessage(self.prefix, self.formKey, self.validationKey);
 
     // HTML5のrequiredがあれば必須項目を設定する
-    if(this.$el.prop('required')) {
+    if(el.getAttribute('required')) {
         self.attrs.required = "";
     }
 
@@ -60,6 +51,15 @@ console.log(this.$submit);
         }
     });
 
+    var dataElm = el.dataset;
+    // for (var j = 0; dataElm.length; j++) {
+    //     console.log(dataElm[j]);
+    // }
+
+console.log(dataElm);
+
+//console.log(self.attrs);
+
     this.model = new RtValidateModel(self.attrs);
 };
 
@@ -69,7 +69,10 @@ RtValidateView.prototype.handleEvents = function()  {
         self.onKeyup(e);
     });
 
-    this.$submit.on('click', function() {
+    // this.$submit.on('click', function() {
+    //     self.onClick();
+    // });
+    this.submit.addEventListener('click', function (e) {
         self.onClick();
     });
 
@@ -97,20 +100,15 @@ RtValidateView.prototype.onClick = function() {
 };
 
 RtValidateView.prototype.onValid = function() {
-    var $targetForm = this.$form;
+    //var targetForm = this.form;
 
     // hide error message
-    $('[data-' + this.prefix +
-                 '-error^="' +
-                 this.formKey + '.' +
-                 this.validationKey + '."]'
-    ).hide();
-
+    this.hideErrorMessage(this.prefix, this.formKey, this.validationKey);
     this.orgOnValid();
 
-    this.$submit.click(function(){
-        $targetForm.submit();
-    });
+    // this.submit.click(function(){
+    //     targetForm.submit();
+    // });
 };
 
 RtValidateView.prototype.onInvalid = function() {
@@ -131,4 +129,15 @@ RtValidateView.prototype.orgOnValid = function() {
 
 RtValidateView.prototype.orgOnInvalid = function() {
     //this.$el.addClass('error');
+};
+
+RtValidateView.prototype.hideErrorMessage = function(
+    prefix, formKey, validationKey
+){
+    var errorMes = document.querySelectorAll(
+        '[data-' + prefix + '-error^="' + formKey + '.' + validationKey + '."]'
+    );
+    for (var i = 0; i < errorMes.length; i++) {
+        errorMes[i].style.display = 'none';
+    }
 };
