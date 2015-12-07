@@ -82,22 +82,26 @@
               <input type="submit" data-rv-submit="formName" class="btn btn-default">
           </div>
       </form>
-      <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+      <!--<script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>-->
       <script src="scripts/rt-validate-model.js"></script>
       <script src="scripts/rt-validate-view.js"></script>
       <script>
         ;(function() {
             var validationPrefix = 'rv';
-            $('[data-' + validationPrefix + '-validate]')
-            .each(function() {
-                var validation = new RtValidateView(this, validationPrefix);
-                validation.orgOnInvalid = function() {
-                  this.$el.addClass('error');
-                }
-                validation.orgOnValid = function() {
-                  this.$el.removeClass('error');
-                }
-            });
+            var validations = document.querySelectorAll(
+              '[data-' + validationPrefix + '-validate]'
+            );
+            for (var i = 0; i < validations.length; i++) {
+              var validation = new RtValidateView(
+                validations[i], validationPrefix
+              );
+              validation.orgOnInvalid = function() {
+                this.el.classList.add('error');
+              }
+              validation.orgOnValid = function() {
+                this.el.classList.remove('error');
+              }
+            }
         })();
       </script>
     </div>

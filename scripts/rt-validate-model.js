@@ -86,7 +86,8 @@ RtValidateModel.prototype.on = function(event, func) {
  * オブザーバーのイベントを発火
  */
 RtValidateModel.prototype.trigger = function(event) {
-    $.each(this.listeners[event], function() {
-        this();
-    });
+    var listeners = this.listeners[event];
+    for (var i = 0; i < listeners.length; i++) {
+        listeners[i]();
+    }
 };

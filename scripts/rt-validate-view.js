@@ -15,6 +15,7 @@ function RtValidateView (el, prefix) {
 }
 
 RtValidateView.prototype.initialize = function(el) {
+    this.el = el;
     this.form = null;
     var parent = el;
     for (var i = 0; parent; i++) {
@@ -27,7 +28,6 @@ RtValidateView.prototype.initialize = function(el) {
         '[data-' + this.prefix + '-submit="' + this.formKey + '"]'
     );
     this.attrs = {};
-    this.$el = $(el);
     var self = this;
 
     // エラーメッセージ非表示
@@ -39,41 +39,30 @@ RtValidateView.prototype.initialize = function(el) {
     }
 
     // prefixから対象の属性のみ取得し、prefixを削除する
-    $.each(this.$el.data(), function(index, val) {
-        // prefixが付いている属性を対象とする
-        var num = index.indexOf(self.prefix, 0);
-        if (num === 0) {
-            index = index.toLowerCase().substring(
-                                            num + self.prefix.length,
-                                            index.length
-                                        );
-            self.attrs[index] = val;
-        }
-    });
-
     var dataElm = el.dataset;
-    // for (var j = 0; dataElm.length; j++) {
-    //     console.log(dataElm[j]);
-    // }
-
-console.log(dataElm);
-
-//console.log(self.attrs);
+    for (var dataKey in dataElm) {
+        // prefixが付いている属性を対象とする
+        var num = dataKey.indexOf(self.prefix, 0);
+        if (num === 0) {
+            var key = dataKey.toLowerCase().substring(
+                                                num + self.prefix.length,
+                                                dataKey.length
+                                            );
+            self.attrs[key] = dataElm[dataKey];
+        }
+    }
 
     this.model = new RtValidateModel(self.attrs);
 };
 
 RtValidateView.prototype.handleEvents = function()  {
     var self = this;
-    this.$el.on('keyup', function(e) {
+    this.el.addEventListener('keyup', function (e) {
         self.onKeyup(e);
     });
 
-    // this.$submit.on('click', function() {
-    //     self.onClick();
-    // });
     this.submit.addEventListener('click', function (e) {
-        self.onClick();
+        self.onClick(e);
     });
 
     this.model.on('valid', function() {
@@ -86,16 +75,24 @@ RtValidateView.prototype.handleEvents = function()  {
 };
 
 RtValidateView.prototype.onKeyup = function(e) {
-    var $target = $(e.currentTarget);
-    this.model.set($target.val());
+    this.model.set(e.currentTarget.value);
 };
 
-RtValidateView.prototype.onClick = function() {
-    var $target = this.$el;
+RtValidateView.prototype.onClick = function(e) {
 
-    if($target.hasClass('js-validate-required')){
-        this.model.set($target.val());
+    if (this.model.errors !== undefined && this.model.errors.length > 0) {
+        //console.log(e.currentTarget.value);
+        e.preventDefault();
+        return false;
     }
+
+    // var $target = this.$el;
+
+    // if($target.hasClass('js-validate-required')){
+    //     this.model.set($target.val());
+    // }
+
+    console.log(this.formKey);
 
 };
 
@@ -113,22 +110,18 @@ RtValidateView.prototype.onValid = function() {
 
 RtValidateView.prototype.onInvalid = function() {
     // show error message
-    $('[data-' + this.prefix +
-                 '-error="' +
-                 this.formKey + '.' +
-                 this.validationKey + '.' +
-                 this.model.errors[0] + '"]'
-    ).show();
+    document.querySelector(
+        '[data-' + this.prefix + '-error="' + this.formKey + '.' +
+        this.validationKey + '.' + this.model.errors[0] + '"]'
+    ).style.display = 'block';
 
     this.orgOnInvalid();
 };
 
 RtValidateView.prototype.orgOnValid = function() {
-    //this.$el.removeClass('error');
 };
 
 RtValidateView.prototype.orgOnInvalid = function() {
-    //this.$el.addClass('error');
 };
 
 RtValidateView.prototype.hideErrorMessage = function(
