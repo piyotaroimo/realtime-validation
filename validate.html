@@ -17,8 +17,14 @@
               <label for="">必須項目</label>
             </div>
             <div class="col">
-              <input type="text" class="js-validate js-validate-required">
+              <input
+                type="text"
+                class="js-validate js-validate-required"
+                data-rv-validate="hissu"
+                required
+              >
               <p class="err"></p>
+              <p class="err" data-rv-error="formName.hissu.required">ひっすっす</p>
             </div>
           </div>
 
@@ -46,8 +52,15 @@
               <label for="">数字のみ</label>
             </div>
             <div class="col">
-              <input type="text" class="js-validate js-validate-number" placeholder="数字のみ">
+              <input
+                type="text"
+                class="js-validate js-validate-number"
+                placeholder="数字のみ"
+                data-rv-validate="number"
+                required
+              >
               <p class="err"></p>
+              <p class="err" data-rv-error="formName.number.required">ひっすっすuzi</p>
             </div>
           </div>
 

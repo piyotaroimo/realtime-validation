@@ -32,9 +32,10 @@ RtValidateView.prototype.initialize = function(el) {
 
     // エラーメッセージ非表示
     this.hideErrorMessage(self.prefix, self.formKey, self.validationKey);
+    this.form.setAttribute('novalidate', '');
 
     // HTML5のrequiredがあれば必須項目を設定する
-    if(el.getAttribute('required')) {
+    if(el.getAttribute('required') !== null) {
         self.attrs.required = "";
     }
 
@@ -79,36 +80,31 @@ RtValidateView.prototype.onKeyup = function(e) {
 };
 
 RtValidateView.prototype.onClick = function(e) {
-
+    e.preventDefault();
     if (this.model.errors !== undefined && this.model.errors.length > 0) {
-        //console.log(e.currentTarget.value);
-        e.preventDefault();
         return false;
     }
 
-    // var $target = this.$el;
-
-    // if($target.hasClass('js-validate-required')){
-    //     this.model.set($target.val());
-    // }
-
-    console.log(this.formKey);
+    if(this.el.getAttribute('required') !== null) {
+        this.model.set(this.el.value);
+    }
 
 };
 
 RtValidateView.prototype.onValid = function() {
-    //var targetForm = this.form;
-
     // hide error message
     this.hideErrorMessage(this.prefix, this.formKey, this.validationKey);
     this.orgOnValid();
 
+    // var targetForm = this.form;
     // this.submit.click(function(){
     //     targetForm.submit();
     // });
 };
 
 RtValidateView.prototype.onInvalid = function() {
+    // hide error message
+    this.hideErrorMessage(this.prefix, this.formKey, this.validationKey);
     // show error message
     document.querySelector(
         '[data-' + this.prefix + '-error="' + this.formKey + '.' +

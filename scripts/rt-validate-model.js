@@ -47,7 +47,7 @@ RtValidateModel.prototype.validate = function() {
 };
 
 RtValidateModel.prototype.required = function() {
-    return this.val === '';
+    return this.val !== '';
 };
 
 RtValidateModel.prototype.minlength = function(rule) {
