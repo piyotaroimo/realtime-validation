@@ -11,7 +11,6 @@ function RtValidateView (el, prefix) {
     this.initialize(el);
     // イベント
     this.handleEvents();
-    // エラー
 }
 
 RtValidateView.prototype.initialize = function(el) {

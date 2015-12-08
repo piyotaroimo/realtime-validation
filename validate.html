@@ -20,7 +20,7 @@
               <input
                 type="text"
                 class="js-validate js-validate-required"
-                data-rv-validate="hissu"
+                data-rv-validate="formName.hissu"
                 required
               >
               <p class="err"></p>
@@ -37,7 +37,7 @@
                 type="text"
                 class="js-validate js-validate-maxlength js-validate-minlength"
                 placeholder="4文字以上8文字以内で入力してください"
-                data-rv-validate="maxmin"
+                data-rv-validate="formName.maxmin"
                 data-rv-minlength="5"
                 data-rv-maxlength="10"
                 data-tetetetete="www"
@@ -56,7 +56,7 @@
                 type="text"
                 class="js-validate js-validate-number"
                 placeholder="数字のみ"
-                data-rv-validate="number"
+                data-rv-validate="formName.number"
                 required
               >
               <p class="err"></p>
@@ -83,7 +83,7 @@
                 type="text"
                 class="js-validate js-validate-mail"
                 placeholder="メールアドレス入力"
-                data-rv-validate="ckmail"
+                data-rv-validate="formName.ckmail"
                 data-rv-mail
               >
               <p class="err" data-rv-error="formName.ckmail.mail">めーるあどえす</p>
@@ -98,23 +98,25 @@
       <!--<script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>-->
       <script src="scripts/rt-validate-model.js"></script>
       <script src="scripts/rt-validate-view.js"></script>
+      <script src="scripts/rt-validate-form.js"></script>
       <script>
         ;(function() {
             var validationPrefix = 'rv';
-            var validations = document.querySelectorAll(
-              '[data-' + validationPrefix + '-validate]'
-            );
-            for (var i = 0; i < validations.length; i++) {
-              var validation = new RtValidateView(
-                validations[i], validationPrefix
-              );
-              validation.orgOnInvalid = function() {
-                this.el.classList.add('error');
-              }
-              validation.orgOnValid = function() {
-                this.el.classList.remove('error');
-              }
-            }
+            var validations = new RtValidateForm();
+            // var validations = document.querySelectorAll(
+            //   '[data-' + validationPrefix + '-validate]'
+            // );
+            // for (var i = 0; i < validations.length; i++) {
+            //   var validation = new RtValidateView(
+            //     validations[i], validationPrefix
+            //   );
+            //   validation.orgOnInvalid = function() {
+            //     this.el.classList.add('error');
+            //   }
+            //   validation.orgOnValid = function() {
+            //     this.el.classList.remove('error');
+            //   }
+            // }
         })();
       </script>
     </div>
