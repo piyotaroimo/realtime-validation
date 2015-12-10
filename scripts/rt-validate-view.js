@@ -2,11 +2,13 @@
  * バリデートview
  * @param {el} 対象要素
  * @param {prefix} 使用プレフィックス
+ * @param {formKey} formキー名
  */
-function RtValidateView (el, prefix) {
+function RtValidateView (el, prefix, formElm) {
     // prefix
-    this.prefix = 'rv';
-    if (prefix !== undefined) this.prefix = prefix;
+    this.prefix = prefix;
+    // form element
+    this.form = formElm;
     // 初期化
     this.initialize(el);
     // イベント
@@ -15,23 +17,15 @@ function RtValidateView (el, prefix) {
 
 RtValidateView.prototype.initialize = function(el) {
     this.el = el;
-    this.form = null;
-    var parent = el;
-    for (var i = 0; parent; i++) {
-        if (parent.nodeName === 'FORM') {this.form = parent; break;}
-        parent = parent.parentNode;
-    }
-    this.formKey = this.form.dataset[this.prefix + 'Form'];
     this.validationKey = el.dataset[this.prefix + 'Validate'];
-    this.submit = document.querySelector(
-        '[data-' + this.prefix + '-submit="' + this.formKey + '"]'
+    this.submit = this.form.querySelector(
+        '[data-' + this.prefix + '-submit]'
     );
     this.attrs = {};
     var self = this;
 
     // エラーメッセージ非表示
-    this.hideErrorMessage(self.prefix, self.formKey, self.validationKey);
-    this.form.setAttribute('novalidate', '');
+    this.hideErrorMessage(self.prefix, self.form, self.validationKey);
 
     // HTML5のrequiredがあれば必須項目を設定する
     if(el.getAttribute('required') !== null) {
@@ -92,38 +86,33 @@ RtValidateView.prototype.onClick = function(e) {
 
 RtValidateView.prototype.onValid = function() {
     // hide error message
-    this.hideErrorMessage(this.prefix, this.formKey, this.validationKey);
+    this.hideErrorMessage(this.prefix, this.form, this.validationKey);
     this.orgOnValid();
-
-    // var targetForm = this.form;
-    // this.submit.click(function(){
-    //     targetForm.submit();
-    // });
 };
 
 RtValidateView.prototype.onInvalid = function() {
     // hide error message
-    this.hideErrorMessage(this.prefix, this.formKey, this.validationKey);
+    this.hideErrorMessage(this.prefix, this.form, this.validationKey);
     // show error message
-    document.querySelector(
-        '[data-' + this.prefix + '-error="' + this.formKey + '.' +
+    this.form.querySelector(
+        '[data-' + this.prefix + '-error="' +
         this.validationKey + '.' + this.model.errors[0] + '"]'
     ).style.display = 'block';
 
-    this.orgOnInvalid();
+    this.orgOnInValid();
 };
 
 RtValidateView.prototype.orgOnValid = function() {
 };
 
-RtValidateView.prototype.orgOnInvalid = function() {
+RtValidateView.prototype.orgOnInValid = function() {
 };
 
 RtValidateView.prototype.hideErrorMessage = function(
-    prefix, formKey, validationKey
+    prefix, formElm, validationKey
 ){
-    var errorMes = document.querySelectorAll(
-        '[data-' + prefix + '-error^="' + formKey + '.' + validationKey + '."]'
+    var errorMes = formElm.querySelectorAll(
+        '[data-' + prefix + '-error^="' + validationKey + '."]'
     );
     for (var i = 0; i < errorMes.length; i++) {
         errorMes[i].style.display = 'none';

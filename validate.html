@@ -9,9 +9,9 @@
   <body>
     <div class="container">
       <div class="page-header">
-        <h1>オブジェクト指向</h1>
+        <h1>V</h1>
       </div>
-      <form data-rv-form="formName" class="js-form" method="post" action="">
+      <form data-rv-form="formName" class="" method="post" action="">
           <div class="row">
             <div class="col">
               <label for="">必須項目</label>
@@ -19,12 +19,11 @@
             <div class="col">
               <input
                 type="text"
-                class="js-validate js-validate-required"
-                data-rv-validate="formName.hissu"
+                class=""
+                data-rv-validate="hissu"
                 required
               >
-              <p class="err"></p>
-              <p class="err" data-rv-error="formName.hissu.required">ひっすっす</p>
+              <p class="err" data-rv-error="hissu.required">ひっすっす</p>
             </div>
           </div>
 
@@ -35,15 +34,15 @@
             <div class="col">
               <input
                 type="text"
-                class="js-validate js-validate-maxlength js-validate-minlength"
+                class=""
                 placeholder="4文字以上8文字以内で入力してください"
-                data-rv-validate="formName.maxmin"
+                data-rv-validate="maxmin"
                 data-rv-minlength="5"
                 data-rv-maxlength="10"
                 data-tetetetete="www"
               >
-              <p class="err" data-rv-error="formName.maxmin.minlength">みん</p>
-              <p class="err" data-rv-error="formName.maxmin.maxlength">まっくす</p>
+              <p class="err" data-rv-error="maxmin.minlength">みん</p>
+              <p class="err" data-rv-error="maxmin.maxlength">まっくす</p>
             </div>
           </div>
 
@@ -54,13 +53,12 @@
             <div class="col">
               <input
                 type="text"
-                class="js-validate js-validate-number"
+                class=""
                 placeholder="数字のみ"
-                data-rv-validate="formName.number"
+                data-rv-validate="number"
                 required
               >
-              <p class="err"></p>
-              <p class="err" data-rv-error="formName.number.required">ひっすっすuzi</p>
+              <p class="err" data-rv-error="number.required">ひっすっすuzi</p>
             </div>
           </div>
 
@@ -69,7 +67,7 @@
               <label for="">url</label>
             </div>
             <div class="col">
-              <input type="text" class="js-validate js-validate-url" placeholder="url入力">
+              <input type="text" class="" placeholder="url入力">
               <p class="err"></p>
             </div>
           </div>
@@ -81,18 +79,59 @@
             <div class="col">
               <input
                 type="text"
-                class="js-validate js-validate-mail"
+                class=""
                 placeholder="メールアドレス入力"
-                data-rv-validate="formName.ckmail"
+                data-rv-validate="ckmail"
                 data-rv-mail
               >
-              <p class="err" data-rv-error="formName.ckmail.mail">めーるあどえす</p>
+              <p class="err" data-rv-error="ckmail.mail">めーるあどえす</p>
+            </div>
+          </div>
+          <div class="row">
+              <!-- <button type="button" data-rv-submit="formName" class="js-submit btn btn-default">送信</button> -->
+              <input id="submit-a" type="submit" data-rv-submit value="submit" class="btn btn-default">
+          </div>
+      </form>
+
+      <div class="page-header">
+        <h1>VV</h1>
+      </div>
+      <form data-rv-form="otherForm" class="" method="post" action="">
+          <div class="row">
+            <div class="col">
+              <label for="">必須項目</label>
+            </div>
+            <div class="col">
+              <input
+                type="text"
+                class=""
+                data-rv-validate="hissu"
+                required
+              >
+              <p class="err" data-rv-error="hissu.required">ひっすっす</p>
             </div>
           </div>
 
           <div class="row">
-              <!-- <button type="button" data-rv-submit="formName" class="js-submit btn btn-default">送信</button> -->
-              <input type="submit" data-rv-submit="formName" class="btn btn-default">
+            <div class="col">
+              <label for="">4文字以上8文字以下</label>
+            </div>
+            <div class="col">
+              <input
+                type="text"
+                class=""
+                placeholder="4文字以上8文字以内で入力してください"
+                data-rv-validate="maxmin"
+                data-rv-minlength="5"
+                data-rv-maxlength="10"
+                data-tetetetete="www"
+              >
+              <p class="err" data-rv-error="maxmin.minlength">みん</p>
+              <p class="err" data-rv-error="maxmin.maxlength">まっくす</p>
+            </div>
+          </div>
+          <div class="row">
+              <input id="submit-b" type="submit" data-rv-submit value="submit2" class="btn btn-default">
           </div>
       </form>
       <!--<script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>-->
@@ -101,22 +140,45 @@
       <script src="scripts/rt-validate-form.js"></script>
       <script>
         ;(function() {
-            var validationPrefix = 'rv';
-            var validations = new RtValidateForm();
-            // var validations = document.querySelectorAll(
-            //   '[data-' + validationPrefix + '-validate]'
-            // );
-            // for (var i = 0; i < validations.length; i++) {
-            //   var validation = new RtValidateView(
-            //     validations[i], validationPrefix
-            //   );
-            //   validation.orgOnInvalid = function() {
-            //     this.el.classList.add('error');
-            //   }
-            //   validation.orgOnValid = function() {
-            //     this.el.classList.remove('error');
-            //   }
-            // }
+            var validationPrefix = 'rv',
+                formKey = 'formName',
+                validations = new RtValidateForm(formKey, validationPrefix);
+
+            // バリデート時の対象要素のハンドリングを設定
+            validations.setOnValid(function(){
+              this.el.classList.remove('error');
+            });
+            validations.setOnInValid(function(){
+              this.el.classList.add('error');
+            });
+
+            validations.initialize();
+
+            // click submit
+            document.getElementById('submit-a')
+                    .addEventListener('click', function (e) {
+              console.log(validations.isValid());
+            });
+
+
+            var formKeyB = 'otherForm',
+                validationsB = new RtValidateForm(formKeyB, validationPrefix);
+
+            validationsB.setOnValid(function(){
+              this.el.classList.remove('error');
+            });
+            validationsB.setOnInValid(function(){
+              this.el.classList.add('error');
+            });
+
+            validationsB.initialize();
+
+            // click submit
+            document.getElementById('submit-b')
+                    .addEventListener('click', function (e) {
+              console.log(validationsB.isValid());
+            });
+
         })();
       </script>
     </div>
