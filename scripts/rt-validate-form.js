@@ -10,11 +10,14 @@ function RtValidateForm (formKey, prefix) {
     if (prefix !== undefined) this.prefix = prefix;
     // 初期化
     //this.initialize(el);
-    // error class
+    // error event
     this.onValid = function(){};
     this.onInValid = function(){};
 }
 
+/**
+ * 初期化
+ */
 RtValidateForm.prototype.initialize = function() {
     this.form = document.querySelector(
       '[data-' + this.prefix + '-form="' + this.formKey + '"]'
@@ -35,6 +38,9 @@ RtValidateForm.prototype.initialize = function() {
     }
 };
 
+/**
+ * バリデート判定
+ */
 RtValidateForm.prototype.isValid = function() {
     var errorMes = this.form.querySelectorAll(
         '[data-' + this.prefix + '-error]'
@@ -47,14 +53,18 @@ RtValidateForm.prototype.isValid = function() {
     return true;
 };
 
-RtValidateForm.prototype.setErrorClass = function(className) {
-    this.errorClass = className;
-};
-
+/**
+ * バリデート成功時のイベントfunctionを設定
+ * @param {func} function 成功時イベント
+ */
 RtValidateForm.prototype.setOnValid = function(func) {
     this.onValid = func;
 };
 
+/**
+ * バリデートエラー時のイベントfunctionを設定
+  * @param {func} function 成功時イベント
+ */
 RtValidateForm.prototype.setOnInValid = function(func) {
     this.onInValid = func;
 };

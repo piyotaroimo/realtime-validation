@@ -2,7 +2,7 @@
  * バリデートview
  * @param {el} 対象要素
  * @param {prefix} 使用プレフィックス
- * @param {formKey} formキー名
+ * @param {formElm} form要素
  */
 function RtValidateView (el, prefix, formElm) {
     // prefix
@@ -17,7 +17,7 @@ function RtValidateView (el, prefix, formElm) {
 
 RtValidateView.prototype.initialize = function(el) {
     this.el = el;
-    this.validationKey = el.dataset[this.prefix + 'Validate'];
+    this.validationKey = el.getAttribute('data-' + this.prefix + '-validate');
     this.submit = this.form.querySelector(
         '[data-' + this.prefix + '-submit]'
     );
@@ -32,17 +32,15 @@ RtValidateView.prototype.initialize = function(el) {
         self.attrs.required = "";
     }
 
-    // prefixから対象の属性のみ取得し、prefixを削除する
-    var dataElm = el.dataset;
-    for (var dataKey in dataElm) {
-        // prefixが付いている属性を対象とする
-        var num = dataKey.indexOf(self.prefix, 0);
+    // prefixから対象の属性を特定・取得し、prefixを削除する
+    var attributes = el.attributes;
+    for (var i = 0; i < attributes.length; i++) {
+        var attribute = attributes[i],
+            num = attribute.name.indexOf('data-' + self.prefix + '-', 0);
         if (num === 0) {
-            var key = dataKey.toLowerCase().substring(
-                                                num + self.prefix.length,
-                                                dataKey.length
-                                            );
-            self.attrs[key] = dataElm[dataKey];
+            var key = attribute.name.split('-')[2];
+            if (key === 'validate') {continue;}
+            self.attrs[key] = attribute.value;
         }
     }
 
@@ -51,11 +49,11 @@ RtValidateView.prototype.initialize = function(el) {
 
 RtValidateView.prototype.handleEvents = function()  {
     var self = this;
-    this.el.addEventListener('keyup', function (e) {
+    this.addEvent(this.el, 'keyup', function (e) {
         self.onKeyup(e);
     });
 
-    this.submit.addEventListener('click', function (e) {
+    this.addEvent(this.submit, 'click', function (e) {
         self.onClick(e);
     });
 
@@ -117,4 +115,17 @@ RtValidateView.prototype.hideErrorMessage = function(
     for (var i = 0; i < errorMes.length; i++) {
         errorMes[i].style.display = 'none';
     }
+};
+
+RtValidateView.prototype.addEvent = function(target, name, fn) {
+    if (!name) { return false; }
+
+    if (window.addEventListener) {
+        target.addEventListener(name, fn, false);
+        return true;
+    } else if (window.attachEvent) {
+        target.attachEvent('on' + name, fn);
+        return true;
+    }
+    return false;
 };
